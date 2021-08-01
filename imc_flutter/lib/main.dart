@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imc_flutter/ui/result.dart';
 
 void main() => runApp(const MyApp());
 
@@ -33,41 +34,51 @@ class _HomeState extends State<Home> {
   //informa o estado do formulario
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //armazenar resultado do calculo
-  String _textResultado = "";
-  int _count =0;
-
+  
   //metodo reseta os campos do formulario
   void _resetFields() {
     _formKey.currentState!.reset(); //! garante qua nao vai ser nulo?
     pesoController.clear();
     alturaController.clear();
-    setState(() {
-      _textResultado = "";
-    });
   }
   
   //calcula o imc e salva o resultado
   void _calcular() {
-    setState(() {
+    String _textResultado = "";
+    String _imageResultado = "";
+
       double peso = double.parse(pesoController.text);
       double altura = double.parse(alturaController.text) / 100;
       double imc = peso / (altura * altura);
 
-      if(imc < 18.6)
+      if(imc < 18.6) {
         _textResultado = "Abaixo do peso";
-      else if(imc >= 18.6 && imc < 24.9)
+        _imageResultado = "images/skinny_cat.jpg";
+      }
+      else if(imc >= 18.6 && imc < 24.9) {
         _textResultado = "Peso ideal";
-      else if(imc >= 24.9 && imc < 29.9)
+        _imageResultado = "images/shape_cat.jpg";
+      }
+      else if(imc >= 24.9 && imc < 29.9) {
         _textResultado = "Levemente acima do peso";
-      else if(imc >= 29.9 && imc < 34.9)
+        _imageResultado = "images/fat_cat.jpg";
+      }
+      else if(imc >= 29.9 && imc < 34.9) {
         _textResultado = "Obesidade Grau I";
-      else if(imc >= 34.9 && imc < 39.9)
+        _imageResultado = "images/fat_cat.jpg";
+      }
+      else if(imc >= 34.9 && imc < 39.9) {
         _textResultado = "Obesidade Grau II";
-      else if(imc >= 39.9)
+        _imageResultado = "images/fat_cat.jpg";
+      }
+      else if(imc >= 39.9) {
         _textResultado = "Obesidade Grau III";
-
+        _imageResultado = "images/fat_cat.jpg";
+      }
+      
       _textResultado += " (${imc.toStringAsPrecision(4)})";
-    });
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Result(_imageResultado, _textResultado)));
   }
 
   @override
@@ -141,11 +152,11 @@ class _HomeState extends State<Home> {
                   ),
               ),
 
-              Text(
+              /*Text(
                 _textResultado,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontSize: 24.0),
-              )
+              )*/
             ],
 
           ),
@@ -154,5 +165,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-//Center(child: Text('You have pressed the button $_count times.', style: const TextStyle(color: Colors.white))),
