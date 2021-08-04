@@ -9,9 +9,15 @@ void main() async {
   runApp(MaterialApp(
     home: Home(),
     theme: ThemeData(
-      hintColor: Colors.green,
-      primaryColor: Colors.white
-    )
+      hintColor: Colors.greenAccent.shade400,
+      primaryColor: Colors.white,
+      inputDecorationTheme: InputDecorationTheme(
+        enabledBorder:
+            OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        focusedBorder:
+            OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        hintStyle: TextStyle(color: Colors.white),
+    )),
   ));
 }
 
@@ -123,7 +129,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget buildTextField(String label, String prefix, TextEditingController txtCtllr, Function f) {
+  Widget buildTextField(String label, String prefix, TextEditingController txtCtllr, Function(String) f) {
     return TextField(
       controller: txtCtllr,
       decoration: InputDecoration(
@@ -135,7 +141,7 @@ class _HomeState extends State<Home> {
         style: TextStyle (color: Colors.greenAccent.shade400, fontSize: 24.0),
         //keyboardType: TextInputType.number,
         keyboardType: TextInputType.numberWithOptions(decimal: true), //permite digitar decimal no iOS
-        onChanged: f()
+        onChanged: f
       );
   }
 }
