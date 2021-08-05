@@ -14,17 +14,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return new Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Perfil',
-          style: TextStyle(color: COLOR_TEXT_LIGTH),
-        ),
-        toolbarHeight: 50.0,
-        backgroundColor: COLOR_PRIMARY,
-        centerTitle: true,
-      ),
-      body: ListView(
+    return new ListView(
         children: <Widget>[
           Stack(
             children: <Widget>[
@@ -43,7 +33,7 @@ class _HomeState extends State<Home> {
                   children: <Widget>[
                     CircleAvatar(
                       radius: size.height * 0.2 / 4,
-                      backgroundColor: Colors.black,
+                      backgroundColor: Colors.pink,
                       child: const Text('EP', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0)),
                       //backgroundImage: NetworkImage(userAvatarUrl),
                     ),
@@ -68,11 +58,8 @@ class _HomeState extends State<Home> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                TVShowCard("Loki", "82%", "./assets/images/tv/loki.jpg"),
-                TVShowCard("O Gambito da Rainha", "87%", "./assets/images/tv/gambito.jpg"),
                 TVShowCard("Breaking Bad", "87%", "./assets/images/tv/bbad.jpg"),
                 TVShowCard("Avatar: A Lenda de Aang", "86%", "./assets/images/tv/avatar.jpg"),
-                TVShowCard("Legados", "86%", "./assets/images/tv/legacies.jpg"),
               ],
             ),
           ),
@@ -88,8 +75,11 @@ class _HomeState extends State<Home> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
+                TVShowCard("Loki", "82%", "./assets/images/tv/loki.jpg"),
+                TVShowCard("O Gambito da Rainha", "87%", "./assets/images/tv/gambito.jpg"),
                 TVShowCard("Breaking Bad", "87%", "./assets/images/tv/bbad.jpg"),
-                TVShowCard("Avatar: A Lenda de Aang", "86%", "./assets/images/tv/avatar.jpg")
+                TVShowCard("Avatar: A Lenda de Aang", "86%", "./assets/images/tv/avatar.jpg"),
+                TVShowCard("Legados", "86%", "./assets/images/tv/legacies.jpg")
               ],
             ),
           ),
@@ -110,30 +100,11 @@ class _HomeState extends State<Home> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: COLOR_BG_LIGTH,
-        buttonBackgroundColor: COLOR_PRIMARY,
-        color: COLOR_PRIMARY,
-        height: 50,
-        index: 2,
-        animationDuration: Duration(milliseconds: 500),
-        items: <Widget>[
-          Icon(Icons.list_rounded, size: 25, color: COLOR_ICONS_LIGTH),
-          Icon(Icons.search_rounded, size: 25, color: COLOR_ICONS_LIGTH),
-          //Icon(Icons.manage_search_rounded, size: 25, color: COLOR_ICONS_LIGTH),
-          Icon(Icons.home_rounded, size: 25, color: COLOR_ICONS_LIGTH),
-          Icon(Icons.live_tv_rounded, size: 25, color: COLOR_ICONS_LIGTH),
-          Icon(Icons.people_rounded, size: 25, color: COLOR_ICONS_LIGTH)
-        ],
-        onTap: (index) {
-          debugPrint(">> Index do curved_navigation_bar: $index");
-        },
-      ),
-    );
+      );
   }
 }
 
+//modularizar isto
 Widget TVShowBlock(String title) {
   return Container();
 }

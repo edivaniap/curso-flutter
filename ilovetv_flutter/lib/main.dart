@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'src/home.dart';
+import 'src/app.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      home: Home(),
+      home: ILoveTVApp(),
       theme: ThemeData(
         
       ),
