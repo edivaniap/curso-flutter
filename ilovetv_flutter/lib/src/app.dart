@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'home.dart';
+import 'explore.dart';
 
 
 
@@ -14,10 +15,20 @@ class ILoveTVApp extends StatefulWidget {
 
 class _ILoveTVAppState extends State<ILoveTVApp> {
    int _currentIndex = 2;
+
+   final tabs_names = [
+     //pages here
+     'Listas',
+     'Explorar',
+     'Perfil',
+     'Próximos Episódios',
+     'Amigos',
+   ];
+
    final tabs = [
      //pages here
      Center(child: Text('Listas - Em construção...')),
-     Center(child: Text('Explorar - Em construção...')),
+     Explore(),
      Home(),
      Center(child: Text('Próximos eps - Em construção...')),
      Center(child: Text('Amigos - Em construção...')),
@@ -30,7 +41,7 @@ class _ILoveTVAppState extends State<ILoveTVApp> {
     return new Scaffold(
       appBar: AppBar(
         title: Text(
-          'Perfil',
+          tabs_names[_currentIndex],
           style: TextStyle(color: COLOR_TEXT_LIGTH),
         ),
         toolbarHeight: 50.0,

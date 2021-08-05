@@ -7,13 +7,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:ilovetv_flutter/main.dart';
+import 'package:ilovetv_flutter/src/app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(Home());
+    await tester.pumpWidget(ILoveTVApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

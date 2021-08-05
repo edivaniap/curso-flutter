@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'shared.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -40,18 +40,13 @@ class _HomeState extends State<Home> {
                     VerticalDivider(),
                     Text(
                       'Edivânia Pontes',
-                      style: TextStyle(fontSize: 20, color: COLOR_TEXT_LIGTH),
+                      style: TextStyle(fontSize: 22, color: COLOR_TEXT_LIGTH),
                     ),
                   ],),
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.only(left:12.0, top: 12.0),
-            child: Text(
-              'Séries favoritas',
-              style: TextStyle(color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.bold),),
-            ),
+          Topic('Séries favoritas'),
           Container(
             width: double.infinity,
             height: 200.0,
@@ -63,12 +58,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left:12.0, top: 12.0),
-            child: Text(
-              'Últimas assistidas',
-              style: TextStyle(color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.bold),),
-            ),
+          Topic('Últimas assistidas'),
           Container(
             width: double.infinity,
             height: 200.0,
@@ -79,16 +69,12 @@ class _HomeState extends State<Home> {
                 TVShowCard("O Gambito da Rainha", "87%", "./assets/images/tv/gambito.jpg"),
                 TVShowCard("Breaking Bad", "87%", "./assets/images/tv/bbad.jpg"),
                 TVShowCard("Avatar: A Lenda de Aang", "86%", "./assets/images/tv/avatar.jpg"),
-                TVShowCard("Legados", "86%", "./assets/images/tv/legacies.jpg")
+                TVShowCard("Legados", "86%", "./assets/images/tv/legacies.jpg"),
+                TVShowCard("", "%", "./assets/images/tv/show.png")
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left:12.0, top: 12.0),
-            child: Text(
-              'Listas personalizadas',
-              style: TextStyle(color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.bold),),
-            ),
+          Topic('Listas personalizadas'),
           Container(
             width: double.infinity,
             height: 200.0,
@@ -102,43 +88,4 @@ class _HomeState extends State<Home> {
         ],
       );
   }
-}
-
-//modularizar isto
-Widget TVShowBlock(String title) {
-  return Container();
-}
-
-Widget TVShowCard(String title, String rate, String image) {
-  return Padding(
-    padding: EdgeInsets.only(left: 5.0, top: 12.0),
-    child: InkWell(
-    // When the user taps the button, show a snackbar.
-      onTap: () {
-        //do something
-      },
-      child: Column(children: <Widget>[
-        Card(
-          elevation: 0.0,
-          child: ClipRRect(
-              borderRadius: new BorderRadius.circular(10.0),
-              child: Image(
-                fit: BoxFit.fill,
-                image: AssetImage(image),
-                width: 110.0,
-                height: 165.0,
-              ),
-            ),
-        ),
-        /* SizedBox(height: 5.0),
-        Text(
-          title,
-          style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          rate,
-          style: TextStyle(color: Colors.black, fontSize: 15.0,),
-        ) */
-      ],)
-  ));
 }
