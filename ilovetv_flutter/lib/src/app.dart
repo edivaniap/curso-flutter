@@ -3,6 +3,7 @@ import 'constants.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'home.dart';
 import 'explore.dart';
+import 'next_episodes.dart';
 
 
 
@@ -30,7 +31,7 @@ class _ILoveTVAppState extends State<ILoveTVApp> {
      Center(child: Text('Listas - Em construção...')),
      Explore(),
      Home(),
-     Center(child: Text('Próximos eps - Em construção...')),
+     NextEpisodes(),
      Center(child: Text('Amigos - Em construção...')),
    ];
 
