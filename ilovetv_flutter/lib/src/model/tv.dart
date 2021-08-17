@@ -1,5 +1,4 @@
 class Tv {
-    //talvez dividir esta classe em TV e TVDatails
     final int id;
     final double voteAverage;
     final double popularity;
@@ -23,6 +22,11 @@ class Tv {
 
     Tv.fromJson(Map<String, dynamic> json)
     : id = json["id"],
-      name = json["name"];
-
+      voteAverage = json["vote_average"],
+      popularity = json["popularity"],
+      name = json["name"],
+      originalName = json["original_name"],
+      poster = json["poster_path"],
+      backdrop = json["backdrop_path"],
+      overview = json["overview"];
 }

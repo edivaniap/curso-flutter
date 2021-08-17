@@ -1,19 +1,19 @@
 import 'tv.dart';
 
-class TVResponse {
-    final List<TV> tvs;
+class TvResponse {
+    final List<Tv> tvs;
     final String error;
 
-    TVResponse(
+    TvResponse(
       this.tvs,
       this.error
     );
 
-    TVResponse.fromJson(Map<String, dynamic> json)
-      : tvs = (json["results"] as List).map((i) => new TV.fromJson(i)).toList(),
+    TvResponse.fromJson(Map<String, dynamic> json)
+      : tvs = (json["results"] as List).map((i) => new Tv.fromJson(i)).toList(),
         error = "";
     
-    TVResponse.withError(String e)
+    TvResponse.withError(String e)
       : tvs = [],
         error = e;
 
