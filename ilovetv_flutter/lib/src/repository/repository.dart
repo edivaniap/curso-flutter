@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ilovetv_flutter/src/model/tv_datail_response.dart';
 import 'package:ilovetv_flutter/src/model/tv_response.dart';
 
 class TvRepository {
@@ -44,6 +45,20 @@ class TvRepository {
     } catch (error, stacktrace) {
       print("An exception occured: $error \nstackTrace: $stacktrace");
       return TvResponse.withError("$error");
+    }
+  }
+
+   Future<TvDatailResponse> getTvDetail(int id) async {
+    var params = {
+      "api_key": apiKey,
+      "language": language
+    };
+    try {
+      Response response = await _dio.get(tvUrl + "/$id", queryParameters: params);
+      return TvDatailResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("An exception occured: $error \nstackTrace: $stacktrace");
+      return TvDatailResponse.withError("$error");
     }
   }
 }

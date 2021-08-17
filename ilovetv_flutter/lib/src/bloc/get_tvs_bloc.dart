@@ -23,4 +23,5 @@ class TvsListBloc {
   BehaviorSubject<TvResponse> get subject => _subject;
   
 }
+
 final tvsBloc = TvsListBloc();
