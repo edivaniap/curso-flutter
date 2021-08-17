@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'src/app.dart';
+import 'src/welcome.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      home: ILoveTVApp(),
-      theme: ThemeData(),
+      home: Welcome(),
+      theme: ThemeData(
+      ),
     )
   );
 }
