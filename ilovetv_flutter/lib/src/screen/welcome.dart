@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ilovetv_flutter/src/constants.dart';
+import 'package:ilovetv_flutter/src/shared/constants.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({ Key? key }) : super(key: key);

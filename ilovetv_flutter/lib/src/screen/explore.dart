@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ilovetv_flutter/src/bloc/get_tvs_bloc.dart';
 import 'constants.dart';
 import 'shared.dart';
 
@@ -19,6 +20,12 @@ class _ExploreState extends State<Explore> {
     //do something
     debugPrint(">> ---------------------------");
     debugPrint(">> Campo de busca foi alterado: $text"); 
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    tvsBloc..getTopRated();
   }
 
   @override
