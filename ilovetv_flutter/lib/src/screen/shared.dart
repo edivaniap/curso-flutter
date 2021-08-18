@@ -98,7 +98,7 @@ Widget TvListCards(List<Tv> _tvs, BuildContext _context) {
                       ),
                       RatingBar(
                         itemSize: 12.0,
-                        initialRating: _tvs[index].voteAverage,
+                        initialRating: _tvs[index].voteAverage / 2,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
