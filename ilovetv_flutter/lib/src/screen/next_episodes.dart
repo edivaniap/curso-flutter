@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import '../shared/constants.dart';
 
 class NextEpisodes extends StatefulWidget {
   const NextEpisodes({Key? key}) : super(key: key);

@@ -1,11 +1,12 @@
+
 class Tv {
     final int id;
     final double voteAverage;
     final double popularity;
     final String name;
     final String originalName;
-    final String poster;
-    final String backdrop;
+    final String? poster;
+    final String? backdrop;
     final String overview;
     
 
@@ -22,7 +23,7 @@ class Tv {
 
     Tv.fromJson(Map<String, dynamic> json)
     : id = json["id"],
-      voteAverage = json["vote_average"],
+      voteAverage = json["vote_average"].toDouble(),
       popularity = json["popularity"],
       name = json["name"],
       originalName = json["original_name"],

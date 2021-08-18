@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import '../shared/constants.dart';
 import 'shared.dart';
 
 class Home extends StatefulWidget {

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ilovetv_flutter/src/bloc/get_tvs_bloc.dart';
-import 'constants.dart';
+import 'package:ilovetv_flutter/src/bloc/tvs_popular_bloc.dart';
+import 'package:ilovetv_flutter/src/screen/popular_tv.dart';
+import 'package:ilovetv_flutter/src/screen/on_air_tv.dart';
+import 'package:ilovetv_flutter/src/screen/top_rated_tv.dart';
+import '../shared/constants.dart';
 import 'shared.dart';
 
 class Explore extends StatefulWidget {
@@ -20,12 +23,6 @@ class _ExploreState extends State<Explore> {
     //do something
     debugPrint(">> ---------------------------");
     debugPrint(">> Campo de busca foi alterado: $text"); 
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    tvsBloc..getTopRated();
   }
 
   @override
@@ -64,34 +61,11 @@ class _ExploreState extends State<Explore> {
                     onChanged: _searchChanged
                   )
           ),
-          Topic('Trends'),
-          Container(
-            width: double.infinity,
-            height: 200.0,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                TVShowCard("Legados", "86%", "./assets/images/tv/legacies.jpg"),
-                TVShowCard("Breaking Bad", "87%", "./assets/images/tv/bbad.jpg"),
-                TVShowCard("O Gambito da Rainha", "87%", "./assets/images/tv/gambito.jpg"),
-                TVShowCard("Loki", "82%", "./assets/images/tv/loki.jpg"),
-              ],
-            ),
-          ),
-          Topic('Recomendado pelo app'),
-          Container(
-            width: double.infinity,
-            height: 200.0,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                TVShowCard("Loki", "82%", "./assets/images/tv/loki.jpg"),
-                TVShowCard("O Gambito da Rainha", "87%", "./assets/images/tv/gambito.jpg"),
-                TVShowCard("Breaking Bad", "87%", "./assets/images/tv/bbad.jpg"),
-                TVShowCard("Legados", "86%", "./assets/images/tv/legacies.jpg")
-              ],
-            ),
-          ),
+          TopRatedTV(),
+          PopularTV(),
+          RecommendedTV(),
+          
+          
           Topic('Recomendado por amigos'),
           Container(
             width: double.infinity,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import '../shared/constants.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'home.dart';
 import 'explore.dart';
