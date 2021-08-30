@@ -65,18 +65,8 @@ class _ExploreState extends State<Explore> {
           PopularTV(),
           RecommendedTV(),
           
+
           
-          Topic('Recomendado por amigos'),
-          Container(
-            width: double.infinity,
-            height: 200.0,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                TVShowCard("Avatar: A Lenda de Aang", "86%", "./assets/images/tv/avatar.jpg"),
-              ],
-            ),
-          ),
         ],
       );
   }

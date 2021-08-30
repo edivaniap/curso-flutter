@@ -8,7 +8,8 @@ class TvRepository {
   final String apiKey = "46dabd4954c59184c25e86d2ce6a3800";
   
   static String mainUrl = "https://api.themoviedb.org/3";
-  static String language = "en-US";
+  static String language = "pt-BR";
+  //static String language = "en-US";
   static int page = 1;
 
   var tvUrl = "$mainUrl/tv";

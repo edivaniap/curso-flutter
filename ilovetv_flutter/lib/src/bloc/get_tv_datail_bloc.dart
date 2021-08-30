@@ -6,7 +6,7 @@ class TvDetailBloc {
   final TvRepository _repository = TvRepository();
   final BehaviorSubject<TvDatailResponse> _subject = BehaviorSubject<TvDatailResponse>();
 
-  getMovieDetail(int id) async {
+  getTvDetail(int id) async {
     TvDatailResponse response = await _repository.getTvDetail(id);
     _subject.sink.add(response);
   }

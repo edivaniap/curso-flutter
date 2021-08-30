@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:ilovetv_flutter/src/model/tv.dart';
+import 'package:ilovetv_flutter/src/screen/tv_datail.dart';
 
 Widget Topic(String title) {
   return Padding(
@@ -44,7 +45,14 @@ Widget TvListCards(List<Tv> _tvs, BuildContext _context) {
           return Padding(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 15.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                 Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TvDetailScreen(tv: _tvs[index]),
+                    ),
+                  );
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

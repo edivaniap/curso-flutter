@@ -6,8 +6,8 @@ class Tv {
     final String name;
     final String originalName;
     final String? poster;
-    final String? backdrop;
-    final String overview;
+    final String? backdrop; //imagens de fundo
+    final String overview; //sinopse - resumo
     
 
     Tv(

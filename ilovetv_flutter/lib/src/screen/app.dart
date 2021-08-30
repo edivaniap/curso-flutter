@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ilovetv_flutter/src/screen/friends.dart';
 import '../shared/constants.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'home.dart';
@@ -32,7 +33,7 @@ class _ILoveTVAppState extends State<ILoveTVApp> {
      Explore(),
      Home(),
      NextEpisodes(),
-     Center(child: Text('Amigos - Em construção...')),
+     Friends(),
    ];
 
   @override
