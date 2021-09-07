@@ -173,15 +173,6 @@ Widget TVShowCard(String title, String rate, String image) {
                   ),
                 ),
               ),
-              /* SizedBox(height: 5.0),
-        Text(
-          title,
-          style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          rate,
-          style: TextStyle(color: Colors.black, fontSize: 15.0,),
-        ) */
             ],
           )));
 }

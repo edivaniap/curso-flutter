@@ -11,23 +11,44 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    Size size = MediaQuery.of(context).size;
+
+    return new Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          
+          Container(//gambiarra para deixar conteudo centralizado e dar um padding
+            width: size.width,
+            height: size.height * 0.15,
+          ),
+
+          Image(
+            image: AssetImage('assets/images/logo0002.png'),
+            width: size.width * 0.6,
+          ),
           Text(
-            'BEM VINDO(A)!',
+            'Olá!',
             style: TextStyle(color: Colors.black, fontSize: 30.0 ),
           ),
-          Divider(),
-          RoundedButton(text: 'Login', press: (){}),
-          RoundedButton(text: 'Cadastrar', press: (){}, color: Colors.grey, textColor: Colors.black,)
+
+          Container(//gambiarra para deixar conteudo centralizado e dar um padding
+            width: size.width,
+            height: size.height * 0.05,
+          ),
+         
+          RoundedButton(
+            text: 'Login',
+            press: (){}
+          ),
+          RoundedButton(
+            text: 'Cadastrar',
+            press: (){},
+            color: Colors.black,
+          )
         ],
       )
-       // RoundedButton(text: 'Login', press: (){}),
-        //Divider(thickness: 1.0, color: Colors.deepOrange),
-     //   RoundedButton(text: 'Cadastrar', press: (){}, color: COLOR_BG_LIGTH, textColor: Colors.black,)
     );
   }
 }
@@ -49,7 +70,7 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      width: size.width * 0.7,
+      width: size.width * 0.6,
       child: ClipRRect(
         child: TextButton(
           style: ButtonStyle(
@@ -59,7 +80,7 @@ class RoundedButton extends StatelessWidget {
           onPressed: press(),
           child: Text(
             text,
-            style: TextStyle(color: textColor),)),
+            style: TextStyle(color: textColor, fontSize: 16.0),)),
       ),
     );
   }
