@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../shared/constants.dart';
-import 'shared.dart';
+import '../shared/components.dart';
 
 class Friends extends StatefulWidget {
   const Friends({Key? key}) : super(key: key);

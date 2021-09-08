@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ilovetv_flutter/src/bloc/tvs_air_bloc.dart';
 import 'package:ilovetv_flutter/src/model/tv_response.dart';
-import 'shared.dart';
+import '../shared/components.dart';
 
 class RecommendedTV extends StatefulWidget {
   @override

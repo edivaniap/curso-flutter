@@ -4,7 +4,7 @@ import 'package:ilovetv_flutter/src/screen/popular_tv.dart';
 import 'package:ilovetv_flutter/src/screen/on_air_tv.dart';
 import 'package:ilovetv_flutter/src/screen/top_rated_tv.dart';
 import '../shared/constants.dart';
-import 'shared.dart';
+import '../shared/components.dart';
 
 class Explore extends StatefulWidget {
   const Explore({ Key? key }) : super(key: key);
