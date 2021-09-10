@@ -11,6 +11,11 @@ class UserPreferences {
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
 
+  static Future delete() async {
+      print('deletando \n');
+      await _preferences.clear();
+      }
+
   static Future setUser(User user) async {
     final json = jsonEncode(user.toJson());
     final idUser = user.id;
@@ -35,8 +40,11 @@ class UserPreferences {
     final idUsers = _preferences.getStringList(_keyUsers);
 
     if (idUsers == null) {
+      print('Listas de usuarios nula\n');
       return <User>[];
     } else {
+      for(String id in idUsers)
+        print(id + '\n');
       return idUsers.map<User>(getUser).toList();
     }
   }

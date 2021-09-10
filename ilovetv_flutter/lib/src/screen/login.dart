@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ilovetv_flutter/src/screen/register.dart';
 
 import 'package:ilovetv_flutter/src/shared/constants.dart';
 import 'package:ilovetv_flutter/src/data/user.dart';
@@ -12,8 +13,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  late User user;
+  late List<User> users;
   bool showPass = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    users = UserPreferences.getUsers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +39,9 @@ class _LoginState extends State<Login> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            Text('Registros', style: TextStyle(fontSize: 20.0),),
+            Expanded(child: buildUsers()),
 
             TextFormField(
               //initialValue: user.username,
@@ -50,8 +61,7 @@ class _LoginState extends State<Login> {
                 ),
                 hintText: 'Usuário',
               ),
-              onChanged: (username) =>
-                  setState(() => user = user.copy(username: username)),
+              
             ),
 
 
@@ -89,7 +99,7 @@ class _LoginState extends State<Login> {
                 hintText: 'Senha',
               ),
               obscureText: !showPass,
-              onChanged: (pass) => setState(() => user = user.copy(pass: pass)),
+              
             ),
 
 
@@ -121,4 +131,37 @@ class _LoginState extends State<Login> {
           ],
         ))));
   }
+
+   Widget buildUsers() {
+    if (users.isEmpty) {
+      return Center(
+        child: Text(
+          'There are no users!',
+          style: TextStyle(fontSize: 24),
+        ),
+      );
+    } else {
+      return ListView.separated(
+        itemCount: users.length,
+        separatorBuilder: (context, index) => Container(height: 12),
+        itemBuilder: (context, index) {
+          final user = users[index];
+
+          return buildUser(user);
+        },
+      );
+    }
+  }
+
+  Widget buildUser(User user) {
+    return ListTile(
+      tileColor: Colors.white24,
+      onTap: () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => RegisterUser(idUser: user.id),
+      )),
+      title: Text(user.toString(), style: TextStyle(fontSize: 16)),
+    );
+  }
+
+
 }

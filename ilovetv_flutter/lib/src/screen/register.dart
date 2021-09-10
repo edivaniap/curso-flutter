@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 import 'dart:io';
 
 import 'package:ilovetv_flutter/src/shared/constants.dart';
+import 'package:ilovetv_flutter/src/screen/login.dart';
 import 'package:ilovetv_flutter/src/data/user.dart';
 import 'package:ilovetv_flutter/src/data/user_preferences.dart';
 
@@ -14,7 +15,7 @@ class RegisterUser extends StatefulWidget {
 
   const RegisterUser({
     Key? key,
-    this.idUser,
+    this.idUser, //para editar
   });
 
   @override
@@ -30,7 +31,7 @@ class _RegisterUserState extends State<RegisterUser> {
     super.initState();
 
     final id = Uuid().v4();
-    print('Id: $id');
+    print('USER ID: $id');
 
     user = widget.idUser == null
         ? User(id: id)
@@ -57,6 +58,7 @@ class _RegisterUserState extends State<RegisterUser> {
             
             TextFormField(
               initialValue: user.name,
+              onChanged: (name) => setState(() => user = user.copy(name: name)),
               maxLength: 30,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
@@ -73,7 +75,6 @@ class _RegisterUserState extends State<RegisterUser> {
                 ),
                 hintText: 'Nome',
               ),
-              onChanged: (name) => setState(() => user = user.copy(name: name)),
             ),
             
             
@@ -84,6 +85,8 @@ class _RegisterUserState extends State<RegisterUser> {
             
             TextFormField(
               initialValue: user.username,
+              onChanged: (username) =>
+                  setState(() => user = user.copy(username: username)),
               maxLength: 15,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
@@ -100,8 +103,6 @@ class _RegisterUserState extends State<RegisterUser> {
                 ),
                 hintText: 'Usuário',
               ),
-              onChanged: (username) =>
-                  setState(() => user = user.copy(username: username)),
             ),
 
 
@@ -111,6 +112,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
 
             TextFormField(
+              onChanged: (pass) => setState(() => user = user.copy(pass: pass)),
               maxLength: 10,
               decoration: InputDecoration(
                 //icon: Icon(Icons.lock_rounded),
@@ -139,7 +141,6 @@ class _RegisterUserState extends State<RegisterUser> {
                 hintText: 'Senha',
               ),
               obscureText: !showPass,
-              onChanged: (pass) => setState(() => user = user.copy(pass: pass)),
             ),
 
 
@@ -150,13 +151,20 @@ class _RegisterUserState extends State<RegisterUser> {
             
             ElevatedButton(
               child: const Text('ENVIAR'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RegisterUser(),
-                  ),
-                );
+              onPressed: () async {
+                final isNewUser = widget.idUser == null;
+
+                if (isNewUser) {
+                  setState(() => user = user.copy(createdAt: DateTime.now().toString()));
+                  await UserPreferences.addUsers(user);
+                  await UserPreferences.setUser(user);
+
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => Login(),
+                  ));
+                } else {
+                  await UserPreferences.setUser(user);
+                }
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.all(10.0),

@@ -32,7 +32,7 @@ class User {
       User(
         id: id ?? this.id,
         name: name ?? this.name,
-        username: name ?? this.username,
+        username: username ?? this.username,
         pass: pass ?? this.pass,
         profile: profile ?? this.profile,
         ids_tv_added: ids_tv_added ?? this.ids_tv_added,
@@ -59,8 +59,9 @@ class User {
         'profile': profile,
         'ids_tv_added': ids_tv_added,
         'ids_tv_fav': ids_tv_fav,
+        'createdAt': createdAt,
       };
 
   @override
-  String toString() => 'User{id: $id, name: $name}';
+  String toString() => 'User{id: $id, name: $name, username: $username, date: $createdAt}';
 }
