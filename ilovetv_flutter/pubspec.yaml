@@ -32,6 +32,14 @@ dependencies:
   page_indicator: ^0.4.1
   font_awesome_flutter: ^9.1.0
   cached_network_image: ^3.1.0
+  # store & load data
+  shared_preferences: ^2.0.7
+  # generate id
+  uuid: ^3.0.4
+  # pick image
+  image_picker: ^0.8.4
+  # store image
+  path_provider: ^2.0.3
 
 dev_dependencies:
   flutter_test:

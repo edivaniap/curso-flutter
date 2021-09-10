@@ -1,19 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'dart:io';
 
 import 'package:ilovetv_flutter/src/shared/constants.dart';
 import 'package:ilovetv_flutter/src/data/user.dart';
 import 'package:ilovetv_flutter/src/data/user_preferences.dart';
 
-class Login extends StatefulWidget {
-  const Login({ Key? key }) : super(key: key);
+class RegisterUser extends StatefulWidget {
+  final String? idUser;
+
+  const RegisterUser({
+    Key? key,
+    this.idUser,
+  });
 
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterUserState createState() => _RegisterUserState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterUserState extends State<RegisterUser> {
   late User user;
   bool showPass = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final id = Uuid().v4();
+    print('Id: $id');
+
+    user = widget.idUser == null
+        ? User(id: id)
+        : UserPreferences.getUser(widget.idUser!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +43,7 @@ class _LoginState extends State<Login> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text('Login'),
+          title: Text('Cadastre-se'),
           backgroundColor: COLOR_PRIMARY,
           centerTitle: true,
         ),
@@ -31,9 +53,37 @@ class _LoginState extends State<Login> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
+            
+            
             TextFormField(
-              //initialValue: user.username,
+              initialValue: user.name,
+              maxLength: 30,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: BLACK, width: 2.0),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: GRAY, width: 2.0),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: COLOR_PRIMARY, width: 3.0),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                hintText: 'Nome',
+              ),
+              onChanged: (name) => setState(() => user = user.copy(name: name)),
+            ),
+            
+            
+            SizedBox(
+              height: 10.0,
+            ),
+            
+            
+            TextFormField(
+              initialValue: user.username,
               maxLength: 15,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
@@ -99,14 +149,14 @@ class _LoginState extends State<Login> {
           
             
             ElevatedButton(
-              child: const Text('ENTRAR'),
+              child: const Text('ENVIAR'),
               onPressed: () {
-                /* Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => RegisterUser(),
                   ),
-                ); */
+                );
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.all(10.0),
