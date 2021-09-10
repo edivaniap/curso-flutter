@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
 import '../shared/constants.dart';
 import '../shared/components.dart';
 
@@ -10,9 +13,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final loggedBloc = context.read<UserLoggedBloc>();
 
     return new ListView(
         children: <Widget>[
@@ -39,7 +44,7 @@ class _HomeState extends State<Home> {
                     ),
                     VerticalDivider(),
                     Text(
-                      'Edivânia Pontes',
+                      loggedBloc.logged.name,
                       style: TextStyle(fontSize: 22, color: COLOR_TEXT_LIGTH),
                     ),
                   ],),

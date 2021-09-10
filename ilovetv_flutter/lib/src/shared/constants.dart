@@ -13,5 +13,6 @@ const COLOR_ICON_WATCHED = Colors.greenAccent;
 const COLOR_ICON_NOTWATCHED = Colors.grey;
 const BLACK = Colors.black;
 const GRAY = Colors.grey;
+const RED = Colors.red;
 
 const double DEFAULT_PADDING = 20.0;

@@ -1,6 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import 'package:ilovetv_flutter/src/model/tv.dart';
 import 'package:ilovetv_flutter/src/screen/tv_datail.dart';
 
@@ -154,12 +155,7 @@ Widget TvListCards(List<Tv> _tvs, BuildContext _context) {
 Widget TVShowCard(String title, String rate, String image) {
   return Padding(
       padding: EdgeInsets.only(left: 5.0, top: 12.0),
-      child: InkWell(
-          // When the user taps the button, show a snackbar.
-          onTap: () {
-            //do something
-          },
-          child: Column(
+      child: Column(
             children: <Widget>[
               Card(
                 elevation: 0.0,
@@ -174,5 +170,5 @@ Widget TVShowCard(String title, String rate, String image) {
                 ),
               ),
             ],
-          )));
+          ));
 }
