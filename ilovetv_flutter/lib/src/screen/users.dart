@@ -65,8 +65,13 @@ class _UsersPageState extends State<UsersPage> {
                 ? null
                 : CircleAvatar(backgroundImage: AssetImage(user.profile), backgroundColor: BLACK, radius: 30.0,),
             title: Text(user.name, style: TextStyle(fontSize: 20)),
-            subtitle: Text(user.username, style: TextStyle(fontSize: 16)),
-          );
+            subtitle: Row(
+              children: <Widget>[
+                Text(user.username, style: TextStyle(fontSize: 16)),
+                Spacer(),
+                Text(user.createdAt, style: TextStyle(fontSize: 16)),
+              ]),
+              );
 
         },
       );

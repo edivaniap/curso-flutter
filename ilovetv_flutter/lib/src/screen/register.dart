@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
@@ -156,7 +157,7 @@ class _RegisterUserState extends State<RegisterUser> {
                 
                 if (isNewUser) {
                   setState(() {
-                    user = user.copy(createdAt: DateTime.now().toString());
+                    user = user.copy(createdAt: DateFormat("dd-MM-yyyy HH:mm").format(DateTime.now()).toString());
                     user = user.copy(profile: 'assets/icons/user.png');
                   });
                   

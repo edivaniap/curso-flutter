@@ -42,6 +42,8 @@ dependencies:
   path_provider: ^2.0.3
   #reusable data
   provider: ^6.0.0
+  #date format
+  intl: any
 
 dev_dependencies:
   flutter_test:
