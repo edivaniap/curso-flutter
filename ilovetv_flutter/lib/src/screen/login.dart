@@ -31,6 +31,9 @@ class _LoginState extends State<Login> {
     _formKey.currentState!.reset(); //! garante qua nao vai ser nulo?
     usernameController.clear();
     passController.clear();
+    setState(() {
+      errorMsg = false;
+    });
   }
 
   @override
@@ -64,11 +67,6 @@ class _LoginState extends State<Login> {
             child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
-           Text(loggedBloc.logged.id),
-           Text(loggedBloc.logged.name),
-Text('Registros', style: TextStyle(fontSize: 20.0),),
-
 
             TextFormField(
               maxLength: 15,
@@ -144,7 +142,7 @@ Text('Registros', style: TextStyle(fontSize: 20.0),),
             SizedBox(height: 10.0),
 
             errorMsg ? 
-            Text('Usuário ou senha incorreta', style: TextStyle(color: RED, fontSize: 14),)
+            Text('Usuário não cadastrado ou senha incorreta', style: TextStyle(color: RED, fontSize: 14),)
             : SizedBox(height: 16.0,),
 
             SizedBox(height: 10.0),
@@ -156,7 +154,7 @@ Text('Registros', style: TextStyle(fontSize: 20.0),),
                   User user = UserPreferences.authenticateUser(usernameController.text, passController.text); 
                   if(user.id == '') {
                     setState(() {
-                      errorMsg = !errorMsg;
+                      errorMsg = true;
                     });
                   } else {
                     loggedBloc.setLogged(user);

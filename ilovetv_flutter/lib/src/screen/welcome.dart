@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ilovetv_flutter/src/screen/login.dart';
 import 'package:ilovetv_flutter/src/screen/register.dart';
+import 'package:ilovetv_flutter/src/screen/users.dart';
 import 'package:ilovetv_flutter/src/shared/constants.dart';
 
 class Welcome extends StatefulWidget {
@@ -88,6 +89,22 @@ class _WelcomeState extends State<Welcome> {
             ),
             ),
       ],
-    )));
+    )),
+    
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UsersPage(),
+                ),
+            );
+        },
+        tooltip: 'Visualizar usuários',
+        child: const Icon(Icons.people_alt_rounded),
+        backgroundColor: Colors.grey,
+      ),
+
+    );
   }
 }

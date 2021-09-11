@@ -153,9 +153,13 @@ class _RegisterUserState extends State<RegisterUser> {
               child: const Text('ENVIAR'),
               onPressed: () async {
                 final isNewUser = widget.idUser == null;
-
+                
                 if (isNewUser) {
-                  setState(() => user = user.copy(createdAt: DateTime.now().toString()));
+                  setState(() {
+                    user = user.copy(createdAt: DateTime.now().toString());
+                    user = user.copy(profile: 'assets/icons/user.png');
+                  });
+                  
                   await UserPreferences.addUsers(user);
                   await UserPreferences.setUser(user);
 

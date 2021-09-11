@@ -14,7 +14,7 @@ class UserPreferences {
   static Future delete() async {
       print('deletando \n');
       await _preferences.clear();
-      }
+  }
 
   static Future setUser(User user) async {
     final json = jsonEncode(user.toJson());
