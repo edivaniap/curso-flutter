@@ -43,6 +43,7 @@ class UserPreferences {
       print('Listas de usuarios nula\n');
       return <User>[];
     } else {
+      print('Pegando usuários\n');
       for(String id in idUsers)
         print(id + '\n');
       return idUsers.map<User>(getUser).toList();

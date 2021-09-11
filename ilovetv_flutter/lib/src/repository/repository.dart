@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ilovetv_flutter/src/model/tv.dart';
 import 'package:ilovetv_flutter/src/model/tv_datail_response.dart';
 import 'package:ilovetv_flutter/src/model/tv_response.dart';
 
@@ -66,7 +67,7 @@ class TvRepository {
     }
   }
 
-   Future<TvDatailResponse> getTvDetail(int id) async {
+  Future<TvDatailResponse> getTvDetail(int id) async {
     var params = {
       "api_key": apiKey,
       "language": language
@@ -78,5 +79,25 @@ class TvRepository {
       print("An exception occured: $error \nstackTrace: $stacktrace");
       return TvDatailResponse.withError("$error");
     }
+  }
+
+  Future<TvResponse> getListTvs(List<int> ids) async {
+    var params = {
+      "api_key": apiKey,
+      "language": language
+    };
+    List<Tv> _tvs = [];
+    try {
+      Response response;
+      for (var id in ids) {
+        response = await _dio.get("$tvUrl/$id", queryParameters: params);
+        _tvs.add(Tv.fromJson(response.data));
+      }
+    } catch (error, stacktrace) {
+      print("An exception occured: $error \nstackTrace: $stacktrace");
+      //return SingleTvResponse.withError("$error");
+    }
+
+    return TvResponse(_tvs, "");
   }
 }

@@ -8,7 +8,7 @@ import 'package:ilovetv_flutter/src/data/user.dart';
 class UserLoggedBloc with ChangeNotifier {
   User _user = new User();
 
-  User get logged => _user;
+  User get user => _user;
 
   void setLogged(User user) {
     _user = user;

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:ilovetv_flutter/src/data/user_preferences.dart';
+import 'package:provider/provider.dart';
+
+import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
 import 'package:ilovetv_flutter/src/model/tv.dart';
 import 'package:ilovetv_flutter/src/shared/constants.dart';
 
@@ -18,6 +22,7 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final loggedBloc = context.watch<UserLoggedBloc>();
 
     return Scaffold(
         appBar: AppBar(
@@ -32,7 +37,7 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
         body: Column(
           children: <Widget>[
           
-
+            //imagem cabecalho
             CachedNetworkImage(
               imageUrl: "https://image.tmdb.org/t/p/original/${tv.backdrop}",
               progressIndicatorBuilder: (context, url, downloadProgress) =>
@@ -64,14 +69,11 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
             ),
 
 
-
-            
+            //pontuacao favorito e adicionar
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
-                  width: 20.0,
-                ),
+                SizedBox(width: 20.0,),
                 Text(
                   tv.voteAverage.toString(),
                   style: TextStyle(
@@ -99,11 +101,51 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
                     print(rating);
                   },
                 ),
+
+                Spacer(),
+
+                GestureDetector(
+                  child: Icon(
+                    loggedBloc.user.ids_tv_fav.contains(tv.id)
+                    ? Icons.favorite_rounded
+                    :Icons.favorite_border_rounded,
+                    color: RED, size: 30,),
+                  onTap: () {
+                    //adicionar na lista de favs do shared prefs
+                    final idsTv = loggedBloc.user.ids_tv_fav.contains(tv.id)
+                      ? (List.of(loggedBloc.user.ids_tv_fav)..remove(tv.id))
+                      : (List.of(loggedBloc.user.ids_tv_fav)..add(tv.id));
+
+                    loggedBloc.setLogged(loggedBloc.user.copy(ids_tv_fav: idsTv));
+                    UserPreferences.setUser(loggedBloc.user);
+                  },
+                ),
+
+                SizedBox(width: 10.0,),
+
+                GestureDetector(
+                  child: Icon(
+                    loggedBloc.user.ids_tv_added.contains(tv.id)
+                    ? Icons.task_alt_rounded
+                    :Icons.add_circle_outline_rounded,
+                    color: GREEN, size: 30,),
+                  onTap: () {
+                    //adicionar na lista de adds do shared prefs
+                    final idsTv = loggedBloc.user.ids_tv_added.contains(tv.id)
+                      ? (List.of(loggedBloc.user.ids_tv_added)..remove(tv.id))
+                      : (List.of(loggedBloc.user.ids_tv_added)..add(tv.id));
+
+                    loggedBloc.setLogged(loggedBloc.user.copy(ids_tv_added: idsTv));
+                    UserPreferences.setUser(loggedBloc.user);
+                  },
+                ),
+
+                SizedBox(width: 20.0,),
               ],
             ),
 
 
-
+            //resumo
             Container(
                 padding: EdgeInsets.all(20.0),
                 child: Text(

@@ -57,9 +57,7 @@ Widget TvListCards(List<Tv> _tvs, BuildContext _context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Hero(
-                    tag: _tvs[index].id,
-                    child: CachedNetworkImage(
+                  CachedNetworkImage(
                       imageUrl:
                           "https://image.tmdb.org/t/p/w200/${_tvs[index].poster}",
                       progressIndicatorBuilder: (context, url, downloadProgress) => Center(
@@ -88,7 +86,7 @@ Widget TvListCards(List<Tv> _tvs, BuildContext _context) {
                         ),
                       ),
                     ),
-                  ),
+
                   Divider(
                     height: 10.0,
                   ),

@@ -9,6 +9,10 @@ class TvResponse {
       this.error
     );
 
+    void add(Tv tv) {
+      tvs.add(tv);
+    }
+
     TvResponse.fromJson(Map<String, dynamic> json)
       : tvs = (json["results"] as List).map((i) => new Tv.fromJson(i)).toList(),
         error = "";

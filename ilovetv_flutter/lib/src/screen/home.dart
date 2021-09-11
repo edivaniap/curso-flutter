@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ilovetv_flutter/src/screen/added_tv.dart';
+import 'package:ilovetv_flutter/src/screen/favs_tv.dart';
 import 'package:provider/provider.dart';
 
 import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
@@ -38,58 +40,22 @@ class _HomeState extends State<Home> {
                   children: <Widget>[
                     CircleAvatar(
                       radius: size.height * 0.2 / 4,
-                      backgroundColor: Colors.pink,
-                      child: const Text('EP', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0)),
-                      //backgroundImage: NetworkImage(userAvatarUrl),
+                      backgroundColor: BLACK,
+                      //child: const Text('EP', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0)),
+                      backgroundImage: AssetImage(loggedBloc.user.profile),
                     ),
                     VerticalDivider(),
                     Text(
-                      loggedBloc.logged.name,
+                      loggedBloc.user.name,
                       style: TextStyle(fontSize: 22, color: COLOR_TEXT_LIGTH),
                     ),
                   ],),
               ),
             ],
           ),
-          Topic('Séries favoritas'),
-          Container(
-            width: double.infinity,
-            height: 200.0,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                TVShowCard("Breaking Bad", "87%", "./assets/images/tv/bbad.jpg"),
-                TVShowCard("Avatar: A Lenda de Aang", "86%", "./assets/images/tv/avatar.jpg"),
-              ],
-            ),
-          ),
-          Topic('Últimas assistidas'),
-          Container(
-            width: double.infinity,
-            height: 200.0,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                TVShowCard("Loki", "82%", "./assets/images/tv/loki.jpg"),
-                TVShowCard("O Gambito da Rainha", "87%", "./assets/images/tv/gambito.jpg"),
-                TVShowCard("Breaking Bad", "87%", "./assets/images/tv/bbad.jpg"),
-                TVShowCard("Avatar: A Lenda de Aang", "86%", "./assets/images/tv/avatar.jpg"),
-                TVShowCard("Legados", "86%", "./assets/images/tv/legacies.jpg"),
-                TVShowCard("", "%", "./assets/images/tv/show.png")
-              ],
-            ),
-          ),
-          Topic('Listas personalizadas'),
-          Container(
-            width: double.infinity,
-            height: 200.0,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                TVShowCard("", "", "./assets/images/tv/new.png"),
-              ],
-            ),
-          ),
+          AddedTV(),
+          FavsTV(),
+
         ],
       );
   }
