@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:ilovetv_flutter/src/model/episode.dart';
+import 'package:ilovetv_flutter/src/model/episode_response.dart';
 import 'package:ilovetv_flutter/src/model/tv.dart';
 import 'package:ilovetv_flutter/src/model/tv_datail_response.dart';
 import 'package:ilovetv_flutter/src/model/tv_response.dart';
@@ -99,5 +101,26 @@ class TvRepository {
     }
 
     return TvResponse(_tvs, "");
+  }
+
+  /* @param ids: lista de ids de series */
+  Future<EpisodeResponse> getNextEps(List<int> ids) async {
+    var params = {
+      "api_key": apiKey,
+      "language": language
+    };
+    List<Episode> _eps = [];
+    try {
+      Response response;
+      for (var id in ids) {
+        response = await _dio.get("$tvUrl/$id/season/1/episode/1", queryParameters: params);
+        _eps.add(Episode.fromJson(response.data));
+      }
+    } catch (error, stacktrace) {
+      print("An exception occured: $error \nstackTrace: $stacktrace");
+      //return SingleTvResponse.withError("$error");
+    }
+
+    return EpisodeResponse(_eps, "");
   }
 }
