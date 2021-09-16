@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:io';
 
 import 'package:ilovetv_flutter/src/shared/constants.dart';
 import 'package:ilovetv_flutter/src/screen/login.dart';
-import 'package:ilovetv_flutter/src/data/user.dart';
+import 'package:ilovetv_flutter/src/model/user.dart';
 import 'package:ilovetv_flutter/src/data/user_preferences.dart';
 
 class RegisterUser extends StatefulWidget {

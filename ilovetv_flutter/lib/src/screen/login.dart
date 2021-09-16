@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:ilovetv_flutter/src/shared/constants.dart';
 import 'package:ilovetv_flutter/src/screen/app.dart';
-import 'package:ilovetv_flutter/src/data/user.dart';
+import 'package:ilovetv_flutter/src/model/user.dart';
 import 'package:ilovetv_flutter/src/data/user_preferences.dart';
-import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
-
+import 'package:ilovetv_flutter/src/data/loggedin_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({ Key? key }) : super(key: key);
@@ -46,7 +44,23 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final loggedBloc = context.watch<UserLoggedBloc>();
+    
+    void _login() {
+     if(_formKey.currentState!.validate()) {
+       User user = UserPreferences.authenticateUser(usernameController.text, passController.text);
+       if(user.id == '') {
+         setState(() {
+           errorMsg = true;
+          });
+        } else {
+          LoggedInPreferences.login(user);
+
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ILoveTVApp(),
+          ));
+        }
+      }
+    }
 
     return new Scaffold(
         appBar: AppBar(
@@ -149,25 +163,7 @@ class _LoginState extends State<Login> {
             
             ElevatedButton(
               child: const Text('ENTRAR'),
-              onPressed: () {
-                if(_formKey.currentState!.validate()) {
-                  User user = UserPreferences.authenticateUser(usernameController.text, passController.text); 
-                  if(user.id == '') {
-                    setState(() {
-                      errorMsg = true;
-                    });
-                  } else {
-                    loggedBloc.setLogged(user);
-
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ILoveTVApp(),
-                        ),
-                    );
-                  }
-                }
-              },
+              onPressed: _login,
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.all(10.0),
                 minimumSize: Size(size.width * 0.5, 16.0),

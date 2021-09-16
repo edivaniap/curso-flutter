@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:ilovetv_flutter/src/bloc/tvs_added_bloc.dart';
-import 'package:ilovetv_flutter/src/bloc/tvs_top_bloc.dart';
-import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
 import 'package:ilovetv_flutter/src/model/tv_response.dart';
-import '../shared/components.dart';
+import 'package:ilovetv_flutter/src/data/loggedin_preferences.dart';
+import 'package:ilovetv_flutter/src/model/user.dart';
+import 'package:ilovetv_flutter/src/shared/components.dart';
 
 class AddedTV extends StatefulWidget {
   @override
@@ -13,18 +12,23 @@ class AddedTV extends StatefulWidget {
 }
 
 class _AddedTVState extends State<AddedTV> {
+  late User loggedUser;
+
   @override
   void initState() {
     super.initState();
+    loggedUser = LoggedInPreferences.getUser();
+    addedBloc..getList(loggedUser.ids_tv_added);
   }
 
   @override
   Widget build(BuildContext context) {
-    final loggedBloc = context.watch<UserLoggedBloc>();
+    //sempre que buildar atualizar usuario e blocs
     setState(() {
-      addedBloc..getList(loggedBloc.user.ids_tv_added);
-    });   
-
+      loggedUser = LoggedInPreferences.getUser();
+      addedBloc..getList(loggedUser.ids_tv_added);
+    });
+  
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

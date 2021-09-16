@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:ilovetv_flutter/src/bloc/tvs_added_bloc.dart';
-import 'package:ilovetv_flutter/src/data/user_preferences.dart';
-import 'package:provider/provider.dart';
 
-import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
+import 'package:ilovetv_flutter/src/bloc/loggedin_bloc.dart';
+import 'package:ilovetv_flutter/src/bloc/tvs_added_bloc.dart';
+import 'package:ilovetv_flutter/src/bloc/tvs_favs_bloc.dart';
+import 'package:ilovetv_flutter/src/data/loggedin_preferences.dart';
+import 'package:ilovetv_flutter/src/model/user.dart';
+import 'package:ilovetv_flutter/src/data/user_preferences.dart';
 import 'package:ilovetv_flutter/src/model/tv.dart';
 import 'package:ilovetv_flutter/src/shared/constants.dart';
 
@@ -21,10 +23,15 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
   _TvDetailScreenState(this.tv);
 
   @override
+  void initState() {
+    super.initState();
+    loggedBloc..getUser();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final loggedBloc = context.watch<UserLoggedBloc>();
-
+    
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -37,7 +44,6 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
         ),
         body: Column(
           children: <Widget>[
-          
             //imagem cabecalho
             CachedNetworkImage(
               imageUrl: "https://image.tmdb.org/t/p/original/${tv.backdrop}",
@@ -105,42 +111,36 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
 
                 Spacer(),
 
-                GestureDetector(
-                  child: Icon(
-                    loggedBloc.user.ids_tv_fav.contains(tv.id)
-                    ? Icons.favorite_rounded
-                    :Icons.favorite_border_rounded,
-                    color: RED, size: 30,),
-                  onTap: () {
-                    //adicionar na lista de favs do shared prefs
-                    final idsTv = loggedBloc.user.ids_tv_fav.contains(tv.id)
-                      ? (List.of(loggedBloc.user.ids_tv_fav)..remove(tv.id))
-                      : (List.of(loggedBloc.user.ids_tv_fav)..add(tv.id));
-
-                    loggedBloc.setLogged(loggedBloc.user.copy(ids_tv_fav: idsTv));
-                    UserPreferences.setUser(loggedBloc.user);
+                //stream do loggedBloc para construir botao fav
+                StreamBuilder<User>(
+                  stream: loggedBloc.user.stream,
+                  builder: (context, AsyncSnapshot<User> snapshot) {
+                    if (snapshot.hasData) {
+                      return _buildFavWidget(snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return _buildErrorWidget(snapshot.error.toString());
+                    } else {
+                      return _buildLoadingWidget();
+                    }
                   },
                 ),
 
                 SizedBox(width: 10.0,),
 
-                GestureDetector(
-                  child: Icon(
-                    loggedBloc.user.ids_tv_added.contains(tv.id)
-                    ? Icons.task_alt_rounded
-                    :Icons.add_circle_outline_rounded,
-                    color: GREEN, size: 30,),
-                  onTap: () {
-                    //adicionar na lista de adds do shared prefs
-                    final idsTv = loggedBloc.user.ids_tv_added.contains(tv.id)
-                      ? (List.of(loggedBloc.user.ids_tv_added)..remove(tv.id))
-                      : (List.of(loggedBloc.user.ids_tv_added)..add(tv.id));
-
-                    loggedBloc.setLogged(loggedBloc.user.copy(ids_tv_added: idsTv));
-                    addedBloc..getList(idsTv); //update addeds bloc
-                    UserPreferences.setUser(loggedBloc.user);
+                //stream do loggedBloc para construir botao add
+                StreamBuilder<User>(
+                  stream: loggedBloc.user.stream,
+                  builder: (context, AsyncSnapshot<User> snapshot) {
+                    if (snapshot.hasData) {
+                      return _buildAddWidget(snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return _buildErrorWidget(snapshot.error.toString());
+                    } else {
+                      return _buildLoadingWidget();
+                    }
                   },
                 ),
+
 
                 SizedBox(width: 20.0,),
               ],
@@ -161,4 +161,67 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
           ],
         ));
   }
+
+  Widget _buildFavWidget(User data) {
+    return GestureDetector(
+                  child: Icon(
+                    loggedBloc.user.value.ids_tv_fav.contains(tv.id)
+                    ? Icons.favorite_rounded
+                    :Icons.favorite_border_rounded,
+                    color: RED, size: 30,),
+                  onTap: () {
+                    //adicionar na lista de favs do shared prefs
+                    final idsTv = loggedBloc.user.value.ids_tv_fav.contains(tv.id)
+                      ? (List.of(loggedBloc.user.value.ids_tv_fav)..remove(tv.id))
+                      : (List.of(loggedBloc.user.value.ids_tv_fav)..add(tv.id));
+
+                    LoggedInPreferences.setUser(loggedBloc.user.value.copy(ids_tv_fav: idsTv));
+                    UserPreferences.setUser(loggedBloc.user.value.copy(ids_tv_fav: idsTv));
+                    //update blocs
+                    loggedBloc..getUser();
+                    favsBloc..getList(idsTv);
+                  },
+                ); 
+  }
+
+  Widget _buildAddWidget(User data) {
+    return  GestureDetector(
+                  child: Icon(
+                    data.ids_tv_added.contains(tv.id)
+                    ? Icons.task_alt_rounded
+                    :Icons.add_circle_outline_rounded,
+                    color: GREEN, size: 30,),
+                  onTap: () {
+                    //adicionar na lista de adds do shared prefs
+                    final idsTv = data.ids_tv_added.contains(tv.id)
+                      ? (List.of(data.ids_tv_added)..remove(tv.id))
+                      : (List.of(data.ids_tv_added)..add(tv.id));
+
+                    //update user logado
+                    LoggedInPreferences.setUser(data.copy(ids_tv_added: idsTv));
+                    //update user na lista do prefs
+                    UserPreferences.setUser(data.copy(ids_tv_added: idsTv));
+                    
+                    //update addeds bloc
+                    loggedBloc..getUser();
+                    addedBloc..getList(idsTv);
+                  },
+                );
+  }
+
+  Widget _buildLoadingWidget() {
+    return SizedBox(
+          height: 25.0,
+          width: 25.0,
+          child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            strokeWidth: 4.0,
+          ),
+        );
+  }
+
+  Widget _buildErrorWidget(String error) {
+    return Icon(Icons.error_rounded, color: BLACK, size: 25, semanticLabel: 'An error has occured: $error',);
+  }
+
 }

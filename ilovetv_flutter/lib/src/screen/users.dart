@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:ilovetv_flutter/src/shared/constants.dart';
-import 'package:ilovetv_flutter/src/data/user.dart';
+import 'package:ilovetv_flutter/src/model/user.dart';
 import 'package:ilovetv_flutter/src/data/user_preferences.dart';
-import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
 
 
 class UsersPage extends StatefulWidget {

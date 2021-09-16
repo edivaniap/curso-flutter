@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ilovetv_flutter/src/bloc/tvs_favs_bloc.dart';
-import 'package:provider/provider.dart';
 
-import 'package:ilovetv_flutter/src/bloc/tvs_added_bloc.dart';
-import 'package:ilovetv_flutter/src/bloc/tvs_top_bloc.dart';
-import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
+import 'package:ilovetv_flutter/src/bloc/tvs_favs_bloc.dart';
+import 'package:ilovetv_flutter/src/data/loggedin_preferences.dart';
+import 'package:ilovetv_flutter/src/model/user.dart';
 import 'package:ilovetv_flutter/src/model/tv_response.dart';
-import '../shared/components.dart';
+import 'package:ilovetv_flutter/src/shared/components.dart';
 
 class FavsTV extends StatefulWidget {
   @override
@@ -14,18 +12,22 @@ class FavsTV extends StatefulWidget {
 }
 
 class _FavsTVState extends State<FavsTV> {
+  late User loggedUser;
+
   @override
   void initState() {
     super.initState();
+    loggedUser = LoggedInPreferences.getUser();
+    favsBloc..getList(loggedUser.ids_tv_fav);
   }
 
   @override
   Widget build(BuildContext context) {
-    final loggedBloc = context.watch<UserLoggedBloc>();
+    //sempre que buildar atualizar usuario e blocs
     setState(() {
-      favsBloc..getList(loggedBloc.user.ids_tv_fav);
-    });   
-
+      loggedUser = LoggedInPreferences.getUser();
+      favsBloc..getList(loggedUser.ids_tv_fav);
+    });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

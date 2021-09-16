@@ -41,7 +41,7 @@ dependencies:
   # store image
   path_provider: ^2.0.3
   #reusable data
-  provider: ^6.0.0
+  #provider: ^6.0.0
   #date format
   intl: any
 

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+
+import 'package:ilovetv_flutter/src/data/loggedin_preferences.dart';
+import 'package:ilovetv_flutter/src/model/user.dart';
 import 'package:ilovetv_flutter/src/screen/added_tv.dart';
 import 'package:ilovetv_flutter/src/screen/favs_tv.dart';
-import 'package:provider/provider.dart';
-
-import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
-import '../shared/constants.dart';
-import '../shared/components.dart';
+import 'package:ilovetv_flutter/src/shared/constants.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,11 +14,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late User loggedUser;
+
+  @override
+  void initState() {
+    super.initState();
+    loggedUser = LoggedInPreferences.getUser();
+  }
   
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final loggedBloc = context.read<UserLoggedBloc>();
 
     return new ListView(
         children: <Widget>[
@@ -38,15 +43,17 @@ class _HomeState extends State<Home> {
                         bottomRight: Radius.circular(50))),
                 child: Row(
                   children: <Widget>[
+
+                    //Adicionar streambuilder loggedBloc para atualizar qnd os dados atualizarem
                     CircleAvatar(
                       radius: size.height * 0.2 / 4,
                       backgroundColor: BLACK,
                       //child: const Text('EP', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0)),
-                      backgroundImage: AssetImage(loggedBloc.user.profile),
+                      backgroundImage: AssetImage(loggedUser.profile),
                     ),
                     VerticalDivider(),
                     Text(
-                      loggedBloc.user.name,
+                      loggedUser.name,
                       style: TextStyle(fontSize: 22, color: COLOR_TEXT_LIGTH),
                     ),
                   ],),

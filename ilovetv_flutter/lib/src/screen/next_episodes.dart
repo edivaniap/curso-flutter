@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:ilovetv_flutter/src/bloc/tvs_added_bloc.dart';
+import 'package:ilovetv_flutter/src/data/loggedin_preferences.dart';
+import 'package:ilovetv_flutter/src/model/user.dart';
 import 'package:ilovetv_flutter/src/model/episode_response.dart';
 import 'package:ilovetv_flutter/src/model/tv.dart';
 import 'package:ilovetv_flutter/src/shared/components.dart';
-import 'package:provider/provider.dart';
 import 'package:ilovetv_flutter/src/bloc/next_eps_bloc.dart';
-import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
-import '../shared/constants.dart';
 
 class NextEpisodes extends StatefulWidget {
   @override
@@ -15,15 +15,25 @@ class NextEpisodes extends StatefulWidget {
 
 class _NextEpisodesState extends State<NextEpisodes> {
   List<Tv> __tvs = [];
+  late User loggedUser;
+
+  @override
+  void initState() {
+    super.initState();
+    loggedUser = LoggedInPreferences.getUser();
+     __tvs = addedBloc.subject.value.tvs;
+    nextEpBloc..getList(loggedUser.ids_tv_added);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final loggedBloc = context.watch<UserLoggedBloc>();
+    //sempre que buildar atualizar usuario e blocs
     setState(() {
-      __tvs = addedBloc.subject.value.tvs; //get the value on the bloc
-      nextEpBloc..getList(loggedBloc.user.ids_tv_added);
+      loggedUser = LoggedInPreferences.getUser();
+     __tvs = addedBloc.subject.value.tvs;
+      nextEpBloc..getList(loggedUser.ids_tv_added);
     });
-
+    
       return StreamBuilder<EpisodeResponse>(
           stream: nextEpBloc.subject.stream,
           builder: (context, AsyncSnapshot<EpisodeResponse> snapshot) {
