@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ilovetv_flutter/src/screen/friends.dart';
-import '../shared/constants.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'home.dart';
-import 'explore.dart';
-import 'next_episodes.dart';
+
+import 'package:ilovetv_flutter/src/data/loggedin_preferences.dart';
+import 'package:ilovetv_flutter/src/screen/friends.dart';
+import 'package:ilovetv_flutter/src/screen/welcome.dart';
+import 'package:ilovetv_flutter/src/shared/constants.dart';
+import 'package:ilovetv_flutter/src/screen/home.dart';
+import 'package:ilovetv_flutter/src/screen/explore.dart';
+import 'package:ilovetv_flutter/src/screen/next_episodes.dart';
 
 
 
@@ -40,6 +43,14 @@ class _ILoveTVAppState extends State<ILoveTVApp> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    void _logout() {
+     LoggedInPreferences.logout();
+
+     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+       builder: (context) => Welcome(),
+      ), (route) => false);
+    }
+
     return new Scaffold(
       appBar: AppBar(
         title: Text(
@@ -49,6 +60,13 @@ class _ILoveTVAppState extends State<ILoveTVApp> {
         toolbarHeight: 50.0,
         backgroundColor: COLOR_PRIMARY,
         centerTitle: true,
+        actions: <Widget>[
+            IconButton(
+              onPressed: _logout,
+              icon: Icon(Icons.logout_rounded),
+              tooltip: 'Sair',
+            )
+          ],
       ),
       body: tabs[_currentIndex],
       bottomNavigationBar: CurvedNavigationBar(

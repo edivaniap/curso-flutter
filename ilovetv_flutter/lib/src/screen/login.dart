@@ -55,9 +55,9 @@ class _LoginState extends State<Login> {
         } else {
           LoggedInPreferences.login(user);
 
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ILoveTVApp(),
-          ));
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+          builder: (context) => ILoveTVApp(),
+          ), (route) => false);
         }
       }
     }
