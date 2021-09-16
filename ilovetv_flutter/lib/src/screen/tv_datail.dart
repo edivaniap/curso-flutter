@@ -163,50 +163,59 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
   }
 
   Widget _buildFavWidget(User data) {
-    return GestureDetector(
-                  child: Icon(
-                    loggedBloc.user.value.ids_tv_fav.contains(tv.id)
-                    ? Icons.favorite_rounded
-                    :Icons.favorite_border_rounded,
-                    color: RED, size: 30,),
-                  onTap: () {
-                    //adicionar na lista de favs do shared prefs
-                    final idsTv = loggedBloc.user.value.ids_tv_fav.contains(tv.id)
-                      ? (List.of(loggedBloc.user.value.ids_tv_fav)..remove(tv.id))
-                      : (List.of(loggedBloc.user.value.ids_tv_fav)..add(tv.id));
+    void _fav() {
+      //adicionar na lista de favs do shared prefs
+      final idsTv = data.ids_tv_fav.contains(tv.id)
+                    ? (List.of(data.ids_tv_fav)..remove(tv.id))
+                    : (List.of(data.ids_tv_fav)..add(tv.id));
 
-                    LoggedInPreferences.setUser(loggedBloc.user.value.copy(ids_tv_fav: idsTv));
-                    UserPreferences.setUser(loggedBloc.user.value.copy(ids_tv_fav: idsTv));
-                    //update blocs
-                    loggedBloc..getUser();
-                    favsBloc..getList(idsTv);
-                  },
-                ); 
+      //update user logado prefs
+      LoggedInPreferences.setUser(data.copy(ids_tv_fav: idsTv));
+      //update user na lista do prefs
+      UserPreferences.setUser(data.copy(ids_tv_fav: idsTv));
+      //update blocs
+      loggedBloc..getUser();
+      favsBloc..getList(idsTv);
+    }
+
+    return IconButton(
+      onPressed: _fav,
+      icon: Icon(
+        loggedBloc.user.value.ids_tv_fav.contains(tv.id)
+        ? Icons.favorite_rounded
+        :Icons.favorite_border_rounded,
+        color: RED, size: 30,),
+      tooltip: (data.ids_tv_fav.contains(tv.id)
+                ? 'Remover dos favoritos': 'Favoritar'),
+    ); 
   }
 
   Widget _buildAddWidget(User data) {
-    return  GestureDetector(
-                  child: Icon(
-                    data.ids_tv_added.contains(tv.id)
-                    ? Icons.task_alt_rounded
-                    :Icons.add_circle_outline_rounded,
-                    color: GREEN, size: 30,),
-                  onTap: () {
-                    //adicionar na lista de adds do shared prefs
-                    final idsTv = data.ids_tv_added.contains(tv.id)
-                      ? (List.of(data.ids_tv_added)..remove(tv.id))
-                      : (List.of(data.ids_tv_added)..add(tv.id));
+    void _add() {
+      //adicionar na lista de adds do shared prefs
+      final idsTv = data.ids_tv_added.contains(tv.id)
+                    ? (List.of(data.ids_tv_added)..remove(tv.id))
+                    : (List.of(data.ids_tv_added)..add(tv.id));
 
-                    //update user logado
-                    LoggedInPreferences.setUser(data.copy(ids_tv_added: idsTv));
-                    //update user na lista do prefs
-                    UserPreferences.setUser(data.copy(ids_tv_added: idsTv));
-                    
-                    //update addeds bloc
-                    loggedBloc..getUser();
-                    addedBloc..getList(idsTv);
-                  },
-                );
+      //update user logado prefs
+      LoggedInPreferences.setUser(data.copy(ids_tv_added: idsTv));
+      //update user na lista do prefs
+      UserPreferences.setUser(data.copy(ids_tv_added: idsTv));         
+      //update addeds bloc
+      loggedBloc..getUser();
+      addedBloc..getList(idsTv);
+    }
+
+    return IconButton(
+      onPressed: _add,
+      icon: Icon(
+        data.ids_tv_added.contains(tv.id)
+        ? Icons.task_alt_rounded
+        :Icons.add_circle_outline_rounded,
+        color: GREEN, size: 30,),
+      tooltip: (data.ids_tv_added.contains(tv.id)
+                ? 'Remover': 'Adicionar'),
+    );
   }
 
   Widget _buildLoadingWidget() {
