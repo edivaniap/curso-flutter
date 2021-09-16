@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:ilovetv_flutter/src/bloc/tvs_added_bloc.dart';
 import 'package:ilovetv_flutter/src/data/user_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -136,6 +137,7 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
                       : (List.of(loggedBloc.user.ids_tv_added)..add(tv.id));
 
                     loggedBloc.setLogged(loggedBloc.user.copy(ids_tv_added: idsTv));
+                    addedBloc..getList(idsTv); //update addeds bloc
                     UserPreferences.setUser(loggedBloc.user);
                   },
                 ),

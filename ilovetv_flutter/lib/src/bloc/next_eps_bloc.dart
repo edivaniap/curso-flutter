@@ -9,7 +9,7 @@ class NextEpisodesBloc {
   final BehaviorSubject<EpisodeResponse> _subject = BehaviorSubject<EpisodeResponse>();
 
   getList(List<int> ids_tv) async {
-    EpisodeResponse response = await _repository.getNextEp(ids_tv);
+    EpisodeResponse response = await _repository.getNextEps(ids_tv);
     _subject.sink.add(response);
   }
 

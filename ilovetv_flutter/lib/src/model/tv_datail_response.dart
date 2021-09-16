@@ -15,6 +15,7 @@ class TvDatailResponse {
       : tvDetail = TvDetail.fromJson(json),
         error = "";
 
+    /* evitar erro do tvdatail constructo */
     TvDatailResponse.withError(String e)
       : tvDetail = TvDetail(-1, -1, -1, -1, false, false, "", "", "", Episode(), [], [], [], [], []),
         error = e;

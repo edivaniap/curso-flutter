@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:ilovetv_flutter/src/model/episode.dart';
+import 'package:ilovetv_flutter/src/model/episode_response.dart';
 
 import 'package:ilovetv_flutter/src/model/tv.dart';
 import 'package:ilovetv_flutter/src/screen/tv_datail.dart';
+
+import 'constants.dart';
 
 Widget Topic(String title) {
   return Padding(
@@ -131,7 +135,9 @@ Widget TvListCards(List<Tv> _tvs, BuildContext _context) {
                   Container(
                     width: 100,
                     child: Text(
-                      _tvs[index].name,
+                      _tvs[index].name.length > 35
+                          ? _tvs[index].name.substring(0, 32) + "..."
+                          : _tvs[index].name,
                       maxLines: 2,
                       style: TextStyle(
                           height: 1.4,
@@ -169,4 +175,112 @@ Widget TVShowCard(String title, String rate, String image) {
               ),
             ],
           ));
+}
+
+Widget EpisodeCard(String _title, String _ep, String _image) {
+  return new Container(
+      height: 100,
+      margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      padding: EdgeInsets.only(left: 20, top: 20, right: 10),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(_image),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop),
+          ),
+          color: Colors.black87,
+          borderRadius: BorderRadius.circular(20)
+      ),
+      child: Row(
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Text(
+                _title.length > 30
+                  ? _title.substring(0, 27) + "..."
+                  : _title,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.white,
+                  shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(-6.0, -6.0),
+                        blurRadius: 10.0,
+                        color: Colors.black
+                      ),
+                      Shadow(
+                        offset: Offset(6.0, 6.0),
+                        blurRadius: 10.0,
+                        color: Colors.black
+                      ),
+                    ],
+                  ),
+                ),
+              
+              Text(
+                _ep.length > 30
+                  ? _ep.substring(0, 27) + "..."
+                  : _ep,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(-8.0, -8.0),
+                        blurRadius: 10.0,
+                        color: Colors.black
+                      ),
+                      Shadow(
+                        offset: Offset(8.0, 8.0),
+                        blurRadius: 10.0,
+                        color: Colors.black
+                      ),
+                    ],
+                 ),
+              ),
+            ],
+          ),
+          Spacer(),
+          IconButton(
+              onPressed: (){
+                  //marcar como visto no database
+              },
+              icon: Icon(Icons.remove_red_eye_rounded, color: COLOR_ICON_WATCHED)
+          )
+        ],
+      ));
+}
+
+Widget NextEpsListCards(List<Tv> _tvs, List<Episode> _eps, BuildContext _context) {
+  if (_eps.length == 0) {
+    return Container(
+      width: MediaQuery.of(_context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Text(
+                "Sem séries",
+                style: TextStyle(color: Colors.black),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  } else {
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: _eps.length,
+        itemBuilder: (context, index) {
+
+          return EpisodeCard('${_tvs[index].name}', 'S${_eps[index].s_number} E${_eps[index].ep_number}: ${_eps[index].name}', 'https://image.tmdb.org/t/p/original/${_tvs[index].backdrop}');
+
+        });
+  }
 }

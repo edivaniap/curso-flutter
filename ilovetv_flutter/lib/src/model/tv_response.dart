@@ -9,6 +9,10 @@ class TvResponse {
       this.error
     );
 
+    List<Tv> getTvs() {
+      return this.tvs;
+    }
+
     void add(Tv tv) {
       tvs.add(tv);
     }

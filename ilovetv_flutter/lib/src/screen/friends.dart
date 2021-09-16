@@ -39,7 +39,7 @@ class _FriendsState extends State<Friends> {
                             fontWeight: FontWeight.bold, fontSize: 16.0)),
                     //backgroundImage: NetworkImage(userAvatarUrl),
                   ),
-                  VerticalDivider(),
+                  SizedBox(width: 10.0,),
                   CircleAvatar(
                     radius: size.height * 0.1 / 4,
                     backgroundColor: Colors.pink,
@@ -48,7 +48,16 @@ class _FriendsState extends State<Friends> {
                             fontWeight: FontWeight.bold, fontSize: 16.0)),
                     //backgroundImage: NetworkImage(userAvatarUrl),
                   ),
-                  VerticalDivider(),
+                  SizedBox(width: 10.0,),
+                  CircleAvatar(
+                    radius: size.height * 0.1 / 4,
+                    backgroundColor: Colors.pink,
+                    child: const Text('AL',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0)),
+                    //backgroundImage: NetworkImage(userAvatarUrl),
+                  ),
+                  SizedBox(width: 10.0,),
                   CircleAvatar(
                     radius: size.height * 0.1 / 4,
                     backgroundColor: Colors.pink,

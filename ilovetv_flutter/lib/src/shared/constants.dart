@@ -12,7 +12,7 @@ const COLOR_ICONS_DARK = Colors.black;
 const COLOR_ICON_WATCHED = Colors.greenAccent;
 const COLOR_ICON_NOTWATCHED = Colors.grey;
 const BLACK = Colors.black;
-const GRAY = Colors.grey;
+const GREY = Colors.grey;
 const RED = Colors.red;
 const GREEN = Colors.green;
 

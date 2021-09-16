@@ -1,176 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:ilovetv_flutter/src/bloc/tvs_added_bloc.dart';
+import 'package:ilovetv_flutter/src/model/episode_response.dart';
+import 'package:ilovetv_flutter/src/model/tv.dart';
+import 'package:ilovetv_flutter/src/shared/components.dart';
+import 'package:provider/provider.dart';
+import 'package:ilovetv_flutter/src/bloc/next_eps_bloc.dart';
+import 'package:ilovetv_flutter/src/bloc/user_logged_bloc.dart';
 import '../shared/constants.dart';
 
 class NextEpisodes extends StatefulWidget {
-  const NextEpisodes({Key? key}) : super(key: key);
-
   @override
   _NextEpisodesState createState() => _NextEpisodesState();
 }
 
 class _NextEpisodesState extends State<NextEpisodes> {
-  Color _iconColor = COLOR_ICON_NOTWATCHED;
-  
-  void _iconPressed() {
-    setState(() {
-      if (_iconColor == COLOR_ICON_NOTWATCHED)
-        _iconColor = COLOR_ICON_WATCHED;
-      else
-        _iconColor = COLOR_ICON_NOTWATCHED;
-    });
-  }
+  List<Tv> __tvs = [];
 
   @override
   Widget build(BuildContext context) {
-    return new ListView(
-      children: <Widget>[
-        Card('Loki', 'S01 E05: Nome do episodio', './assets/images/bg_tv/bg_loki.jpg'),
-        Card('Avatar: A Lenda de Aang', 'S03 E02: Nome do episodio', './assets/images/bg_tv/bg_avatar.jpg'),
-        Card('Loki', 'S01 E05: Nome do episodio', './assets/images/bg_tv/bg_loki.jpg'),
-        Card('Avatar: A Lenda de Aang', 'S03 E02: Nome do episodio', './assets/images/bg_tv/bg_avatar.jpg'),
-        Card('Loki', 'S01 E05: Nome do episodio', './assets/images/bg_tv/bg_loki.jpg'),
-        Card('Avatar: A Lenda de Aang', 'S03 E02: Nome do episodio', './assets/images/bg_tv/bg_avatar.jpg'),
-        
-                
-        //mesma coisa que Card()
-        //gambiarra pra conseguir executar a troca de Cor do Icone on Pressed
-        Container(
-      height: 100,
-      margin: EdgeInsets.all(12.0),
-      padding: EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('./assets/images/bg_tv/bg_loki.jpg'),
-            fit: BoxFit.cover
-          ),
-          borderRadius: BorderRadius.circular(20)
-      ),
-      child: Row(
-        children: <Widget>[
-          Column(
-            children: [
-              Text(
-                'Loki',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.white,
-                  shadows: <Shadow>[
-                      Shadow(
-                        offset: Offset(-6.0, -6.0),
-                        blurRadius: 10.0,
-                        color: Colors.black
-                      ),
-                      Shadow(
-                        offset: Offset(6.0, 6.0),
-                        blurRadius: 10.0,
-                        color: Colors.black
-                      ),
-                    ],
-                  ),
-              ),
-              Text(
-                'S01 E05: Epic Ep',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  shadows: <Shadow>[
-                      Shadow(
-                        offset: Offset(-8.0, -8.0),
-                        blurRadius: 10.0,
-                        color: Colors.black
-                      ),
-                      Shadow(
-                        offset: Offset(8.0, 8.0),
-                        blurRadius: 10.0,
-                        color: Colors.black
-                      ),
-                    ],
-                 ),
-                ),
-            ],
-          ),
-          Spacer(),
-          IconButton(
-              onPressed: _iconPressed,
-              icon: Icon(Icons.remove_red_eye_rounded, color: _iconColor)
-          )
-        ],
-      ))
-      ],
-    );
-  }
-}
+    final loggedBloc = context.watch<UserLoggedBloc>();
+    setState(() {
+      __tvs = addedBloc.subject.value.tvs; //get the value on the bloc
+      nextEpBloc..getList(loggedBloc.user.ids_tv_added);
+    });
 
-//dar um nome mais apropriado
-Widget Card(String _title, String _ep, String _image) {
-  return new Container(
-      height: 100,
-      margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-      padding: EdgeInsets.only(left: 20, top: 20, right: 10),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(_image),
-            fit: BoxFit.cover
-            
+      return StreamBuilder<EpisodeResponse>(
+          stream: nextEpBloc.subject.stream,
+          builder: (context, AsyncSnapshot<EpisodeResponse> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.error.length > 0) {
+                return _buildErrorWidget(snapshot.data!.error);
+              }
+              return _buildHomeWidget(snapshot.data!);
+            } else if (snapshot.hasError) {
+              return _buildErrorWidget(snapshot.error.toString());
+            } else {
+              return _buildLoadingWidget();
+            }
+          },
+        );
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 25.0,
+          width: 25.0,
+          child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.purple.shade400),
+            strokeWidth: 4.0,
           ),
-          borderRadius: BorderRadius.circular(20)
-      ),
-      child: Row(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Text(
-                _title,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.white,
-                  shadows: <Shadow>[
-                      Shadow(
-                        offset: Offset(-6.0, -6.0),
-                        blurRadius: 10.0,
-                        color: Colors.black
-                      ),
-                      Shadow(
-                        offset: Offset(6.0, 6.0),
-                        blurRadius: 10.0,
-                        color: Colors.black
-                      ),
-                    ],
-                  ),
-                ),
-              
-              Text(
-                _ep,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  shadows: <Shadow>[
-                      Shadow(
-                        offset: Offset(-8.0, -8.0),
-                        blurRadius: 10.0,
-                        color: Colors.black
-                      ),
-                      Shadow(
-                        offset: Offset(8.0, 8.0),
-                        blurRadius: 10.0,
-                        color: Colors.black
-                      ),
-                    ],
-                 ),
-              ),
-            ],
-          ),
-          Spacer(),
-          IconButton(
-              onPressed: (){},
-              icon: Icon(Icons.remove_red_eye_rounded, color: COLOR_ICON_NOTWATCHED)
-          )
-        ],
-      ));
+        )
+      ],
+    ));
+  }
+
+  Widget _buildErrorWidget(String error) {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("An error has occured: $error"),
+      ],
+    ));
+  }
+
+  Widget _buildHomeWidget(EpisodeResponse data) {
+    return NextEpsListCards(__tvs, data.episodes, context);    
+  }
 }

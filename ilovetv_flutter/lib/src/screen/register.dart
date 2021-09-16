@@ -67,7 +67,7 @@ class _RegisterUserState extends State<RegisterUser> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: GRAY, width: 2.0),
+                  borderSide: BorderSide(color: GREY, width: 2.0),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -95,7 +95,7 @@ class _RegisterUserState extends State<RegisterUser> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: GRAY, width: 2.0),
+                  borderSide: BorderSide(color: GREY, width: 2.0),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -132,7 +132,7 @@ class _RegisterUserState extends State<RegisterUser> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: GRAY, width: 2.0),
+                  borderSide: BorderSide(color: GREY, width: 2.0),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 focusedBorder: OutlineInputBorder(

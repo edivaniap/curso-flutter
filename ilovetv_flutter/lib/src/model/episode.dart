@@ -4,12 +4,12 @@ class Episode {
   final int ep_number;
   final String name;
 
-  Episode(
-    this.id,
-    this.s_number,
-    this.ep_number,
-    this.name
-  );
+  Episode({
+    this.id = 0,
+    this.s_number = 0,
+    this.ep_number = 0,
+    this.name = ''
+  });
 
   Episode.fromJson(Map<String, dynamic> json)
     : id = json['id'],
