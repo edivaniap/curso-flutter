@@ -52,7 +52,7 @@ class _TopRatedTVState extends State<TopRatedTV> {
           height: 25.0,
           width: 25.0,
           child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.purple.shade400),
             strokeWidth: 4.0,
           ),
         )

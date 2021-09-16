@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:ilovetv_flutter/src/screen/profile_friend.dart';
 
 import 'package:ilovetv_flutter/src/shared/constants.dart';
 import 'package:ilovetv_flutter/src/model/user.dart';
@@ -58,7 +57,14 @@ class _UsersPageState extends State<UsersPage> {
 
           return ListTile(
             //tileColor: ,
-            //onTap: (){},
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Profile(user: user),
+                ),
+              );
+            },
             leading: user.profile == ''
                 ? null
                 : CircleAvatar(backgroundImage: AssetImage(user.profile), backgroundColor: BLACK, radius: 30.0,),
@@ -70,7 +76,6 @@ class _UsersPageState extends State<UsersPage> {
                 Text(user.createdAt, style: TextStyle(fontSize: 16)),
               ]),
               );
-
         },
       );
     }

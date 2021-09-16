@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ilovetv_flutter/src/bloc/loggedin_bloc.dart';
+import 'package:ilovetv_flutter/src/screen/profile_friend.dart';
+import 'package:ilovetv_flutter/src/screen/users.dart';
 import '../shared/constants.dart';
 import '../shared/components.dart';
 
@@ -10,6 +13,12 @@ class Friends extends StatefulWidget {
 }
 
 class _FriendsState extends State<Friends> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loggedBloc..getUser();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,12 +75,25 @@ class _FriendsState extends State<Friends> {
                             fontWeight: FontWeight.bold, fontSize: 16.0)),
                     //backgroundImage: NetworkImage(userAvatarUrl),
                   ),
+                  SizedBox(width: 20.0,),
+                  IconButton(
+                    onPressed: (){
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UsersPage(),
+                      ),
+                      );
+                    },
+                    icon: Icon(Icons.person_search_rounded, color: Colors.white, size: 40,),
+                    tooltip: 'Ver usuários',
+                  )
                 ],
               ),
             ),
           ],
         ),
-        Topic('Recomendado por amigos'),
+        Topic('Recomendações'),
         Container(
           width: double.infinity,
           height: 200.0,

@@ -42,7 +42,7 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
           backgroundColor: COLOR_PRIMARY,
           centerTitle: true,
         ),
-        body: Column(
+        body: ListView(
           children: <Widget>[
             //imagem cabecalho
             CachedNetworkImage(
@@ -223,7 +223,7 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
           height: 25.0,
           width: 25.0,
           child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.purple.shade400),
             strokeWidth: 4.0,
           ),
         );
