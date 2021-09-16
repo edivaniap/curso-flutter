@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ilovetv_flutter/src/bloc/loggedin_bloc.dart';
+import 'package:ilovetv_flutter/src/model/friend.dart';
 import 'package:ilovetv_flutter/src/screen/profile_friend.dart';
 import 'package:ilovetv_flutter/src/screen/users.dart';
 import '../shared/constants.dart';
@@ -18,6 +19,7 @@ class _FriendsState extends State<Friends> {
     // TODO: implement initState
     super.initState();
     loggedBloc..getUser();
+    loggedBloc..getFriends();
   }
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class _FriendsState extends State<Friends> {
               padding: EdgeInsets.only(
                 left: DEFAULT_PADDING + 10,
                 right: DEFAULT_PADDING,
+                top: 10
               ),
               height: size.height * 0.2,
               decoration: BoxDecoration(
@@ -38,60 +41,44 @@ class _FriendsState extends State<Friends> {
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(50),
                       bottomRight: Radius.circular(50))),
-              child: Row(
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: size.height * 0.1 / 4,
-                    backgroundColor: Colors.pink,
-                    child: const Text('EP',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    //backgroundImage: NetworkImage(userAvatarUrl),
-                  ),
-                  SizedBox(width: 10.0,),
-                  CircleAvatar(
-                    radius: size.height * 0.1 / 4,
-                    backgroundColor: Colors.pink,
-                    child: const Text('RF',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    //backgroundImage: NetworkImage(userAvatarUrl),
-                  ),
-                  SizedBox(width: 10.0,),
-                  CircleAvatar(
-                    radius: size.height * 0.1 / 4,
-                    backgroundColor: Colors.pink,
-                    child: const Text('AL',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    //backgroundImage: NetworkImage(userAvatarUrl),
-                  ),
-                  SizedBox(width: 10.0,),
-                  CircleAvatar(
-                    radius: size.height * 0.1 / 4,
-                    backgroundColor: Colors.pink,
-                    child: const Text('AL',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    //backgroundImage: NetworkImage(userAvatarUrl),
-                  ),
-                  SizedBox(width: 20.0,),
-                  IconButton(
-                    onPressed: (){
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UsersPage(),
-                      ),
-                      );
-                    },
-                    icon: Icon(Icons.person_search_rounded, color: Colors.white, size: 40,),
-                    tooltip: 'Ver usuários',
-                  )
-                ],
+
+              child: StreamBuilder<List<Friend>>(
+                stream: loggedBloc.friends.stream,
+                builder: (context, AsyncSnapshot<List<Friend>> snapshot) {
+                  if (snapshot.hasData) {
+                    return _buildFriendWidget(snapshot.data!);
+                  } else if (snapshot.hasError) {
+                    return _buildErrorWidget(snapshot.error.toString());
+                  } else {
+                    return _buildLoadingWidget();
+                  }
+                },
               ),
             ),
+
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UsersPage(),
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.person_search_rounded,
+                  color: Colors.greenAccent,
+                  size: 40,
+                ),
+                tooltip: 'Ver usuários',
+              ),
+            )
+
           ],
+          clipBehavior: Clip.antiAlias,
         ),
         Topic('Recomendações'),
         Container(
@@ -106,6 +93,52 @@ class _FriendsState extends State<Friends> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildFriendWidget(List<Friend> fs) {
+    return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: fs.length,
+        itemBuilder: (context, index) {
+
+          return Container(
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                CircleAvatar(
+                    radius: 25,
+                    backgroundColor: BLACK,
+                    backgroundImage: AssetImage(fs[index].friend!.profile),
+                  ),
+
+                  Text(fs[index].friend!.username)
+              ]),
+          );
+
+        });
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 20.0,
+          width: 20.0,
+          child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.purple.shade400),
+            strokeWidth: 4.0,
+          ),
+        )
+      ],
+    ));
+  }
+
+  Widget _buildErrorWidget(String error) {
+    return Center(
+        child: Text("An error has occured: $error"),
     );
   }
 }

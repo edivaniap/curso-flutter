@@ -8,7 +8,7 @@ class User {
   final String profile;
   final List<int> ids_tv_added;
   final List<int> ids_tv_fav;
-  final List<Friend> friends; //key: id user, val: ids series indicadas
+  final List<Friend> friends;
   final String createdAt;
 
   const User({
@@ -72,4 +72,20 @@ class User {
 
   @override
   String toString() => 'User{id: $id, name: $name, username: $username, date: $createdAt}';
+
+  bool containsFriend(String idUser) {
+    for (var f in friends) {
+      if(f.friend!.id == idUser)
+        return true;
+    }
+    return false;
+  }
+
+  Friend getFriend(String idUser) {
+    for (var f in friends) {
+      if(f.friend!.id == idUser)
+        return f;
+    }
+    return Friend(null, null);
+  }
 }
